@@ -16,7 +16,7 @@ public class TerrainScanner : MonoBehaviour
         }
     }
 
-    void SpawnScanner()
+    public void SpawnScanner()
     {
         GameObject terrainScanner = Instantiate(terrainScannerPrefab, gameObject.transform.position, Quaternion.identity);
         
