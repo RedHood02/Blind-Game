@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Movement : MonoBehaviour
 {
@@ -25,10 +26,11 @@ public class Movement : MonoBehaviour
     private Vector2 moveTouchStartPosition;
     private Vector2 moveInput;
 
+    [SerializeField] float timeToNextStepMaster, timeToNextStep;
+
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SpawnScanner());
 
         // id = -1 means the finger is not being tracked
         leftFingerId = -1;
@@ -39,6 +41,8 @@ public class Movement : MonoBehaviour
 
         // calculate the movement input dead zone
         moveInputDeadZone = Mathf.Pow(Screen.height / moveInputDeadZone, 2);
+
+        timeToNextStep = timeToNextStepMaster;
     }
 
     // Update is called once per frame
@@ -51,14 +55,12 @@ public class Movement : MonoBehaviour
         if (rightFingerId != -1)
         {
             // Ony look around if the right finger is being tracked
-            Debug.Log("Rotating");
             LookAround();
         }
 
         if (leftFingerId != -1)
         {
             // Ony move if the left finger is being tracked
-            Debug.Log("Moving");
             Move();
         }
     }
@@ -92,20 +94,36 @@ public class Movement : MonoBehaviour
 
                     break;
                 case TouchPhase.Ended:
-                case TouchPhase.Canceled:
 
+                    timeToNextStep = timeToNextStepMaster;
                     if (t.fingerId == leftFingerId)
                     {
                         // Stop tracking the left finger
                         leftFingerId = -1;
-                        Debug.Log("Stopped tracking left finger");
                     }
                     else if (t.fingerId == rightFingerId)
                     {
                         // Stop tracking the right finger
                         rightFingerId = -1;
-                        Debug.Log("Stopped tracking right finger");
                     }
+
+                    cameraTransform.DORotateQuaternion(new Quaternion(0, 0, 0, 0), 1);
+                    break;
+                case TouchPhase.Canceled:
+
+                    timeToNextStep = timeToNextStepMaster;
+                    if (t.fingerId == leftFingerId)
+                    {
+                        // Stop tracking the left finger
+                        leftFingerId = -1;
+                    }
+                    else if (t.fingerId == rightFingerId)
+                    {
+                        // Stop tracking the right finger
+                        rightFingerId = -1;
+                    }
+
+                    cameraTransform.DORotateQuaternion(new Quaternion(0, 0, 0, 0), 1);
 
                     break;
                 case TouchPhase.Moved:
@@ -113,7 +131,7 @@ public class Movement : MonoBehaviour
                     // Get input for looking around
                     if (t.fingerId == rightFingerId)
                     {
-                        lookInput = t.deltaPosition * cameraSensitivity * Time.deltaTime;
+                        lookInput = cameraSensitivity * Time.deltaTime * t.deltaPosition;
                     }
                     else if (t.fingerId == leftFingerId)
                     {
@@ -155,14 +173,13 @@ public class Movement : MonoBehaviour
         Vector2 movementDirection = moveInput.normalized * moveSpeed * Time.deltaTime;
         // Move relatively to the local transform's direction
         characterController.Move(transform.right * movementDirection.x + transform.forward * movementDirection.y);
-    }
 
-    IEnumerator SpawnScanner()
-    {
-        while (true)
+        timeToNextStep -= Time.deltaTime;
+        if (timeToNextStep <= 0)
         {
-            yield return new WaitForSeconds(2f);
+            //play audiosource
             GetComponent<TerrainScanner>().SpawnScanner();
+            timeToNextStep = timeToNextStepMaster;
         }
     }
 }

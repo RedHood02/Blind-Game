@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.000018086948, g: 0.000000031775667, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.000018086883, g: 0.000000031775667, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1047,7 +1047,9 @@ MonoBehaviour:
   characterController: {fileID: 1384337182}
   cameraSensitivity: 25
   moveSpeed: 5
-  moveInputDeadZone: 466.56003
+  moveInputDeadZone: 400
+  timeToNextStepMaster: 0.5
+  timeToNextStep: 0
 --- !u!1 &1960301585
 GameObject:
   m_ObjectHideFlags: 0
