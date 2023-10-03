@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6284818248205134583}
   - component: {fileID: 2367817203537780341}
   - component: {fileID: 1535920902197581060}
-  - component: {fileID: 5067198704146009201}
   m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
@@ -4821,7 +4820,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2aac07f135ebe7544b6cd13876ee164d, type: 2}
+  - {fileID: 2100000, guid: edad61608d31215468da8c6b34a15c9e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4885,18 +4884,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 50
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5067198704146009201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 837001111475152144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0ab746b2481a654b9cfb51d99242ea7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1688652991030643121
 GameObject:
   m_ObjectHideFlags: 0
@@ -4907,7 +4894,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3599613329455741154}
   m_Layer: 7
-  m_Name: Scanner
+  m_Name: EnemyRADAR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

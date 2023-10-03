@@ -123,8 +123,6 @@ public class Movement : MonoBehaviour
                         rightFingerId = -1;
                     }
 
-                    cameraTransform.DORotateQuaternion(new Quaternion(0, 0, 0, 0), 1);
-
                     break;
                 case TouchPhase.Moved:
 
@@ -156,9 +154,10 @@ public class Movement : MonoBehaviour
     {
 
         // vertical (pitch) rotation
+        /*
         cameraPitch = Mathf.Clamp(cameraPitch - lookInput.y, -90f, 90f);
         cameraTransform.localRotation = Quaternion.Euler(cameraPitch, 0, 0);
-
+        */
         // horizontal (yaw) rotation
         transform.Rotate(transform.up, lookInput.x);
     }
