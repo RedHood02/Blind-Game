@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.000018086914, g: 0.000000031775667, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.000018086883, g: 0.000000031775667, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1272,9 +1272,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainScannerPrefab: {fileID: 1688652991030643121, guid: f6aaf8e66f2069b49a4ed53b56b207fe,
     type: 3}
-  duration: 1
+  duration: 3
   size: 200
-  timeToNextStepMaster: 1
+  timeToNextStepMaster: 1.5
   timeToNextStep: 0
   agent: {fileID: 937924676}
   enemySpeed: 1
@@ -1838,7 +1838,7 @@ MonoBehaviour:
   characterController: {fileID: 1384337182}
   cameraSensitivity: 25
   moveSpeed: 5
-  moveInputDeadZone: 400
+  moveInputDeadZone: 100
   timeToNextStepMaster: 0.5
   timeToNextStep: 0
 --- !u!1 &1946283600

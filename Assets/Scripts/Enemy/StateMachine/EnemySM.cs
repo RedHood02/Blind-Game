@@ -23,6 +23,7 @@ public class EnemySM : StateMachine
     public Vector3 playerPos;
     public float timerToReset, timerMaster;
     public bool heardPlayer;
+    public List<Transform> restingSpotsList = new();
 
     private void Awake()
     {

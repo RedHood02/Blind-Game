@@ -107,7 +107,6 @@ public class Movement : MonoBehaviour
                         rightFingerId = -1;
                     }
 
-                    cameraTransform.DORotateQuaternion(new Quaternion(0, 0, 0, 0), 1);
                     break;
                 case TouchPhase.Canceled:
 
@@ -169,7 +168,7 @@ public class Movement : MonoBehaviour
         if (moveInput.sqrMagnitude <= moveInputDeadZone) return;
 
         // Multiply the normalized direction by the speed
-        Vector2 movementDirection = moveInput.normalized * moveSpeed * Time.deltaTime;
+        Vector2 movementDirection = moveSpeed * Time.deltaTime * moveInput.normalized;
         // Move relatively to the local transform's direction
         characterController.Move(transform.right * movementDirection.x + transform.forward * movementDirection.y);
 

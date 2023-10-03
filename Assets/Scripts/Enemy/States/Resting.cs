@@ -10,15 +10,12 @@ public class Resting : BaseState
         _SM = stateMachine;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public override void Enter()
     {
-        
-    }
+        base.Enter();
 
-    // Update is called once per frame
-    void Update()
-    {
+        int rand = Random.Range(0, _SM.restingSpotsList.Count + 1);
         
+        _SM.agent.SetDestination(_SM.restingSpotsList[rand].position);
     }
 }
