@@ -15,14 +15,17 @@ public class Hunting : BaseState
     {
         base.Enter();
         _SM.timerToReset = _SM.timerMaster;
-
         _SM.agent.SetDestination(_SM.playerPos);
+        _SM.agent.speed = 7f;
+        _SM.timeToNextStepMaster = 0.75f;
     }
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+        Debug.Log("Hunting");
         LowerTimer();
+        _SM.IncreaseRestTimer(2f);
     }
 
     void LowerTimer()
@@ -37,7 +40,7 @@ public class Hunting : BaseState
         if (_SM.timeToNextStep <= 0)
         {
             //play audiosource
-            _SM.SpawnScanner();
+            _SM.SpawnScanner(1); //Running Scanner
             _SM.timeToNextStep = _SM.timeToNextStepMaster;
         }
     }
@@ -45,7 +48,7 @@ public class Hunting : BaseState
     public override void Exit()
     {
         base.Exit();
-        _SM.agent.isStopped = true;
+        _SM.heardPlayer = false;
     }
 
     public void ResetTimer()
@@ -58,5 +61,7 @@ public class Hunting : BaseState
         _SM.playerPos = playerPos;
         _SM.agent.SetDestination(_SM.playerPos);
     }
+
+    
 
 }

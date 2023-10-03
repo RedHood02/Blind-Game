@@ -13,9 +13,13 @@ public class Resting : BaseState
     public override void Enter()
     {
         base.Enter();
-
         int rand = Random.Range(0, _SM.restingSpotsList.Count + 1);
         
         _SM.agent.SetDestination(_SM.restingSpotsList[rand].position);
     }
+
+	public override void UpdateLogic()
+	{
+		base.UpdateLogic();
+	}
 }

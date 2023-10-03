@@ -5,179 +5,184 @@ using DG.Tweening;
 
 public class Movement : MonoBehaviour
 {
-    // References
-    [SerializeField] private Transform cameraTransform;
-    [SerializeField] private CharacterController characterController;
+	// References
+	[SerializeField] private Transform cameraTransform;
+	[SerializeField] private CharacterController characterController;
 
-    // Player settings
-    [SerializeField] private float cameraSensitivity;
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float moveInputDeadZone;
+	// Player settings
+	[SerializeField] private float cameraSensitivity;
+	[SerializeField] private float moveSpeed;
+	[SerializeField] private float moveInputDeadZone;
 
-    // Touch detection
-    private int leftFingerId, rightFingerId;
-    private float halfScreenWidth;
+	// Touch detection
+	private int leftFingerId, rightFingerId;
+	private float halfScreenWidth;
 
-    // Camera control
-    private Vector2 lookInput;
-    private float cameraPitch;
+	// Camera control
+	private Vector2 lookInput;
+	private float cameraPitch;
 
-    // Player movement
-    private Vector2 moveTouchStartPosition;
-    private Vector2 moveInput;
+	// Player movement
+	private Vector2 moveTouchStartPosition;
+	private Vector2 moveInput;
 
-    [SerializeField] float timeToNextStepMaster, timeToNextStep;
+	[SerializeField] float currentTouchDistance;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+	[SerializeField] float timeToNextStepMaster, timeToNextStep;
 
-        // id = -1 means the finger is not being tracked
-        leftFingerId = -1;
-        rightFingerId = -1;
+	// Start is called before the first frame update
+	void Start()
+	{
 
-        // only calculate once
-        halfScreenWidth = Screen.width / 2;
+		// id = -1 means the finger is not being tracked
+		leftFingerId = -1;
+		rightFingerId = -1;
 
-        // calculate the movement input dead zone
-        moveInputDeadZone = Mathf.Pow(Screen.height / moveInputDeadZone, 2);
+		// only calculate once
+		halfScreenWidth = Screen.width / 2;
 
-        timeToNextStep = timeToNextStepMaster;
-    }
+		// calculate the movement input dead zone
+		moveInputDeadZone = Mathf.Pow(Screen.height / moveInputDeadZone, 2);
 
-    // Update is called once per frame
-    void Update()
-    {
-        // Handles input
-        GetTouchInput();
+		timeToNextStep = timeToNextStepMaster;
+	}
+
+	// Update is called once per frame
+	void Update()
+	{
+		// Handles input
+		GetTouchInput();
 
 
-        if (rightFingerId != -1)
-        {
-            // Ony look around if the right finger is being tracked
-            LookAround();
-        }
+		if (rightFingerId != -1)
+		{
+			// Ony look around if the right finger is being tracked
+			LookAround();
+		}
 
-        if (leftFingerId != -1)
-        {
-            // Ony move if the left finger is being tracked
-            Move();
-        }
-    }
+		if (leftFingerId != -1)
+		{
+			// Ony move if the left finger is being tracked
+			Move();
+		}
+	}
 
-    void GetTouchInput()
-    {
-        // Iterate through all the detected touches
-        for (int i = 0; i < Input.touchCount; i++)
-        {
+	void GetTouchInput()
+	{
+		// Iterate through all the detected touches
+		for (int i = 0; i < Input.touchCount; i++)
+		{
+			Touch t = Input.GetTouch(i);
 
-            Touch t = Input.GetTouch(i);
+			// Check each touch's phase
+			switch (t.phase)
+			{
+				case TouchPhase.Began:
 
-            // Check each touch's phase
-            switch (t.phase)
-            {
-                case TouchPhase.Began:
+					if (t.position.x < halfScreenWidth && leftFingerId == -1)
+					{
+						// Start tracking the left finger if it was not previously being tracked
+						leftFingerId = t.fingerId;
 
-                    if (t.position.x < halfScreenWidth && leftFingerId == -1)
-                    {
-                        // Start tracking the left finger if it was not previously being tracked
-                        leftFingerId = t.fingerId;
+						// Set the start position for the movement control finger
+						moveTouchStartPosition = t.position;
+					}
+					else if (t.position.x > halfScreenWidth && rightFingerId == -1)
+					{
+						// Start tracking the rightfinger if it was not previously being tracked
+						rightFingerId = t.fingerId;
+					}
 
-                        // Set the start position for the movement control finger
-                        moveTouchStartPosition = t.position;
-                    }
-                    else if (t.position.x > halfScreenWidth && rightFingerId == -1)
-                    {
-                        // Start tracking the rightfinger if it was not previously being tracked
-                        rightFingerId = t.fingerId;
-                    }
+					break;
+				case TouchPhase.Ended:
 
-                    break;
-                case TouchPhase.Ended:
+					timeToNextStep = timeToNextStepMaster;
+					if (t.fingerId == leftFingerId)
+					{
+						// Stop tracking the left finger
+						leftFingerId = -1;
+					}
+					else if (t.fingerId == rightFingerId)
+					{
+						// Stop tracking the right finger
+						rightFingerId = -1;
+					}
 
-                    timeToNextStep = timeToNextStepMaster;
-                    if (t.fingerId == leftFingerId)
-                    {
-                        // Stop tracking the left finger
-                        leftFingerId = -1;
-                    }
-                    else if (t.fingerId == rightFingerId)
-                    {
-                        // Stop tracking the right finger
-                        rightFingerId = -1;
-                    }
+					break;
+				case TouchPhase.Canceled:
 
-                    break;
-                case TouchPhase.Canceled:
+					timeToNextStep = timeToNextStepMaster;
+					if (t.fingerId == leftFingerId)
+					{
+						// Stop tracking the left finger
+						leftFingerId = -1;
+					}
+					else if (t.fingerId == rightFingerId)
+					{
+						// Stop tracking the right finger
+						rightFingerId = -1;
+					}
 
-                    timeToNextStep = timeToNextStepMaster;
-                    if (t.fingerId == leftFingerId)
-                    {
-                        // Stop tracking the left finger
-                        leftFingerId = -1;
-                    }
-                    else if (t.fingerId == rightFingerId)
-                    {
-                        // Stop tracking the right finger
-                        rightFingerId = -1;
-                    }
+					break;
+				case TouchPhase.Moved:
 
-                    break;
-                case TouchPhase.Moved:
+					float number = Vector3.Distance(moveTouchStartPosition, t.position);
 
-                    // Get input for looking around
-                    if (t.fingerId == rightFingerId)
-                    {
-                        lookInput = cameraSensitivity * Time.deltaTime * t.deltaPosition;
-                    }
-                    else if (t.fingerId == leftFingerId)
-                    {
+					currentTouchDistance = Mathf.Clamp(number, 0, 3);
 
-                        // calculating the position delta from the start position
-                        moveInput = t.position - moveTouchStartPosition;
-                    }
+					// Get input for looking around
+					if (t.fingerId == rightFingerId)
+					{
+						lookInput = cameraSensitivity * Time.deltaTime * t.deltaPosition;
+					}
+					else if (t.fingerId == leftFingerId)
+					{
 
-                    break;
-                case TouchPhase.Stationary:
-                    // Set the look input to zero if the finger is still
-                    if (t.fingerId == rightFingerId)
-                    {
-                        lookInput = Vector2.zero;
-                    }
-                    break;
-            }
-        }
-    }
+						// calculating the position delta from the start position
+						moveInput = t.position - moveTouchStartPosition;
+					}
 
-    void LookAround()
-    {
+					break;
+				case TouchPhase.Stationary:
+					// Set the look input to zero if the finger is still
+					if (t.fingerId == rightFingerId)
+					{
+						lookInput = Vector2.zero;
+					}
+					break;
+			}
+		}
+	}
 
-        // vertical (pitch) rotation
-        /*
+	void LookAround()
+	{
+
+		// vertical (pitch) rotation
+		/*
         cameraPitch = Mathf.Clamp(cameraPitch - lookInput.y, -90f, 90f);
         cameraTransform.localRotation = Quaternion.Euler(cameraPitch, 0, 0);
         */
-        // horizontal (yaw) rotation
-        transform.Rotate(transform.up, lookInput.x);
-    }
+		// horizontal (yaw) rotation
+		transform.Rotate(transform.up, lookInput.x);
+	}
 
-    void Move()
-    {
+	void Move()
+	{
 
-        // Don't move if the touch delta is shorter than the designated dead zone
-        if (moveInput.sqrMagnitude <= moveInputDeadZone) return;
+		// Don't move if the touch delta is shorter than the designated dead zone
+		if (moveInput.sqrMagnitude <= moveInputDeadZone) return;
 
-        // Multiply the normalized direction by the speed
-        Vector2 movementDirection = moveSpeed * Time.deltaTime * moveInput.normalized;
-        // Move relatively to the local transform's direction
-        characterController.Move(transform.right * movementDirection.x + transform.forward * movementDirection.y);
+		// Multiply the normalized direction by the speed
+		Vector2 movementDirection = moveSpeed * currentTouchDistance * Time.deltaTime * moveInput.normalized;
+		// Move relatively to the local transform's direction
+		characterController.Move(transform.right * movementDirection.x + transform.forward * movementDirection.y);
 
-        timeToNextStep -= Time.deltaTime;
-        if (timeToNextStep <= 0)
-        {
-            //play audiosource
-            GetComponent<TerrainScanner>().SpawnScanner();
-            timeToNextStep = timeToNextStepMaster;
-        }
-    }
+		timeToNextStep -= Time.deltaTime;
+		if (timeToNextStep <= 0)
+		{
+			//play audiosource
+			GetComponent<TerrainScanner>().SpawnScanner();
+			timeToNextStep = timeToNextStepMaster;
+		}
+	}
 }

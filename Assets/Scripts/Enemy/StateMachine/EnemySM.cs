@@ -13,17 +13,22 @@ public class EnemySM : StateMachine
     public Hunting huntingState;
 
     //Enemy Visual Effect
-    public GameObject terrainScannerPrefab;
+    public List<GameObject> terrainScannerPrefab = new();
     public float duration, size;
     public float timeToNextStepMaster, timeToNextStep;
 
     //Enemy AI
     public NavMeshAgent agent;
-    public float enemySpeed;
     public Vector3 playerPos;
     public float timerToReset, timerMaster;
     public bool heardPlayer;
     public List<Transform> restingSpotsList = new();
+    public float radius;
+
+
+    //Change To Rest
+    public float restTimerMaster, currentTimer;
+
 
     private void Awake()
     {
@@ -38,16 +43,13 @@ public class EnemySM : StateMachine
         switch(currentState)
         {
             case "Idle":
-                Debug.Log("Enemy Idle");
                 heardPlayer = true;
                 break;
 
             case "Resting":
-                Debug.Log("Enemy Resting");
                 break;
 
             case "Hunting":
-                Debug.Log("Enemy Hunting");
                 huntingState.ResetTimer();
                 break;
 
@@ -61,9 +63,9 @@ public class EnemySM : StateMachine
         return idleState;
     }
 
-    public void SpawnScanner()
+    public void SpawnScanner(int id)
     {
-        GameObject terrainScanner = Instantiate(terrainScannerPrefab, gameObject.transform.position, Quaternion.identity);
+        GameObject terrainScanner = Instantiate(terrainScannerPrefab[id], gameObject.transform.position, Quaternion.identity);
 
         if (terrainScanner.transform.GetChild(0).TryGetComponent<ParticleSystem>(out var terrainScannerPs))
         {
@@ -73,5 +75,27 @@ public class EnemySM : StateMachine
         }
 
         Destroy(terrainScanner, duration + 1);
+    }
+
+
+
+    public bool RandomPoint(Vector3 center, float range, out Vector3 result)
+    {
+        for (int i = 0; i < 30; i++)
+        {
+            Vector3 randomPoint = center + Random.insideUnitSphere * range;
+            if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, 1.0f, NavMesh.AllAreas))
+            {
+                result = hit.position;
+                return true;
+            }
+        }
+        result = Vector3.zero;
+        return false;
+    }
+
+    public void IncreaseRestTimer(float valueAdded)
+    {
+        currentTimer += valueAdded;
     }
 }

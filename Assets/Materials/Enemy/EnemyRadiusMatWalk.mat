@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EnemyRadiusMat
+  m_Name: EnemyRadiusMatWalk
   m_Shader: {fileID: -6465566751694194690, guid: ac9bf4020a281044f8dabe9f15e03d08,
     type: 3}
   m_ValidKeywords:
@@ -64,7 +64,7 @@ Material:
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
-    - _intersection_Depth: 3
+    - _intersection_Depth: 4
     m_Colors:
     - _Intersection_Color: {r: 1.4980392, g: 0, b: 0, a: 0.5254902}
   m_BuildTextureStacks: []
