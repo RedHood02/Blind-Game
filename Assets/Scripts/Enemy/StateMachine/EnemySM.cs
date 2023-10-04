@@ -24,29 +24,29 @@ public class EnemySM : StateMachine
     public bool heardPlayer;
     public List<Transform> restingSpotsList = new();
     public float radius;
+    public Light enemyLight;
 
+    //Mesh
+    public MeshRenderer meshRend;
 
-    //Change To Rest
-    public float restTimerMaster, currentTimer;
+    //Animator
+    public Animator anim;
 
 
     private void Awake()
     {
         idleState = new Idle(this);
         restingState = new Resting(this);
-        huntingState = new Hunting(this);   
+        huntingState = new Hunting(this);
     }
 
     public void SetHunt()
     {
         string currentState = FindObjectOfType<StateMachine>().GetCurrentState().ToString();
-        switch(currentState)
+        switch (currentState)
         {
             case "Idle":
                 heardPlayer = true;
-                break;
-
-            case "Resting":
                 break;
 
             case "Hunting":
@@ -78,6 +78,27 @@ public class EnemySM : StateMachine
     }
 
 
+    public void ChangeAnimation()
+    {
+        meshRend.enabled = false;
+        anim.Play("New State");
+    }
+
+    public void ResetTimer()
+    {
+        GetComponent<RestingTimer>().SetTimeToRest(0f);
+
+    }
+
+
+    public IEnumerator ResetMovement()
+    {
+        yield return new WaitForSeconds(30f);
+        {
+            ChangeState(idleState);
+        }
+    }
+
 
     public bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
@@ -92,10 +113,5 @@ public class EnemySM : StateMachine
         }
         result = Vector3.zero;
         return false;
-    }
-
-    public void IncreaseRestTimer(float valueAdded)
-    {
-        currentTimer += valueAdded;
     }
 }

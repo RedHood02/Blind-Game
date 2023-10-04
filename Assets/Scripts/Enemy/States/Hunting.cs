@@ -18,14 +18,14 @@ public class Hunting : BaseState
         _SM.agent.SetDestination(_SM.playerPos);
         _SM.agent.speed = 7f;
         _SM.timeToNextStepMaster = 0.75f;
+        _SM.meshRend.enabled = true;
+        _SM.anim.Play("Spawn");
     }
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-        Debug.Log("Hunting");
         LowerTimer();
-        _SM.IncreaseRestTimer(2f);
     }
 
     void LowerTimer()
@@ -49,6 +49,7 @@ public class Hunting : BaseState
     {
         base.Exit();
         _SM.heardPlayer = false;
+        _SM.anim.Play("Despawn");
     }
 
     public void ResetTimer()
@@ -62,6 +63,6 @@ public class Hunting : BaseState
         _SM.agent.SetDestination(_SM.playerPos);
     }
 
-    
+
 
 }
