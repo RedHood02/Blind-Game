@@ -29,7 +29,7 @@ public class TestMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        StartCoroutine(SpawnScanner());
+        //StartCoroutine(SpawnScanner());
     }
 
     void Update()
@@ -79,7 +79,7 @@ public class TestMovement : MonoBehaviour
         #endregion
     }
 
-    IEnumerator SpawnScanner()
+    /*IEnumerator SpawnScanner()
 	{
         while (true)
 		{
@@ -87,4 +87,5 @@ public class TestMovement : MonoBehaviour
             GetComponent<TerrainScanner>().SpawnScanner();
 		}
 	}
+    */
 }

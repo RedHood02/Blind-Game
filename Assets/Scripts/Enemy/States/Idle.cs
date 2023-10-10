@@ -24,6 +24,7 @@ public class Idle : BaseState
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+        _SM.RandomiseSound();
         if (!_SM.heardPlayer)
         {
             if (_SM.agent.remainingDistance < 0.2f)
@@ -44,7 +45,8 @@ public class Idle : BaseState
         _SM.timeToNextStep -= Time.deltaTime;
         if (_SM.timeToNextStep <= 0)
         {
-            //play audiosource
+            _SM.source.GenerateImpulse();
+            _SM.emitter.Play();
             _SM.SpawnScanner(0); // Walking scanner
             _SM.timeToNextStep = _SM.timeToNextStepMaster;
         }

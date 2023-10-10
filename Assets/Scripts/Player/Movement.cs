@@ -29,11 +29,18 @@ public class Movement : MonoBehaviour
 	//Fmod
 	[SerializeField] StudioEventEmitter emitter;
 
-	[SerializeField] float currentTouchDistance;
 
+	[SerializeField] float currentTouchDistance;
 	[SerializeField] float timeToNextStepMaster, timeToNextStep;
 
-	// Start is called before the first frame update
+	//Double tap
+	[SerializeField] float doubleTapTimer;
+
+
+	[SerializeField] GameObject terrainScannerPrefab, terrainScannerWater;
+
+	[SerializeField] bool inWater;
+
 	void Start()
 	{
 
@@ -48,6 +55,7 @@ public class Movement : MonoBehaviour
 		moveInputDeadZone = Mathf.Pow(Screen.height / moveInputDeadZone, 2);
 
 		timeToNextStep = timeToNextStepMaster;
+
 	}
 
 	// Update is called once per frame
@@ -70,12 +78,25 @@ public class Movement : MonoBehaviour
 		}
 	}
 
+
+	void DoubleTapAction()
+	{
+		RuntimeManager.PlayOneShot("event:/Player/Hand Slap");
+		GetComponent<TerrainScanner>().SpawnScanner(terrainScannerPrefab);
+		doubleTapTimer = 0.1f;
+	}
+
 	void GetTouchInput()
 	{
+		doubleTapTimer -= Time.deltaTime;
 		// Iterate through all the detected touches
 		for (int i = 0; i < Input.touchCount; i++)
 		{
 			Touch t = Input.GetTouch(i);
+			if (t.tapCount == 2 && doubleTapTimer < 0)
+			{
+				DoubleTapAction();
+			}
 
 			// Check each touch's phase
 			switch (t.phase)
@@ -176,16 +197,33 @@ public class Movement : MonoBehaviour
 		if (moveInput.sqrMagnitude <= moveInputDeadZone) return;
 
 		// Multiply the normalized direction by the speed
-		Vector2 movementDirection = moveSpeed * currentTouchDistance * Time.deltaTime * moveInput.normalized;
+		Vector2 movementDirection = moveSpeed * Time.deltaTime * moveInput.normalized;
 		// Move relatively to the local transform's direction
-		characterController.Move(transform.right * movementDirection.x + transform.forward * movementDirection.y);
+
+		Vector3 vect = new(movementDirection.x, 0, movementDirection.y);
+
+
+		transform.Translate(vect);
 
 		timeToNextStep -= Time.deltaTime;
 		if (timeToNextStep <= 0)
 		{
-			emitter.Play();
-			GetComponent<TerrainScanner>().SpawnScanner();
+			RuntimeManager.PlayOneShot("event:/Player/Walking");
+
+			if (inWater)
+			{
+				GetComponent<TerrainScanner>().SpawnScanner(terrainScannerWater);
+			}
+			else
+			{
+				GetComponent<TerrainScanner>().SpawnScanner(terrainScannerPrefab);
+			}
 			timeToNextStep = timeToNextStepMaster;
 		}
+	}
+
+	public void SetInWater(bool newBool)
+	{
+		inWater = newBool;
 	}
 }

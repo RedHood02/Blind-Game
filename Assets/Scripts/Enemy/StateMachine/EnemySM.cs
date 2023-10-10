@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using FMODUnity;
+using Cinemachine;
 
 public class EnemySM : StateMachine
 {
@@ -32,6 +34,11 @@ public class EnemySM : StateMachine
     //Animator
     public Animator anim;
 
+    //FMOD
+    public StudioEventEmitter emitter;
+
+    //Cinemachine
+    public CinemachineImpulseSource source;
 
     private void Awake()
     {
@@ -56,6 +63,28 @@ public class EnemySM : StateMachine
             default:
                 break;
         }
+    }
+
+    public void RandomiseSound()
+	{
+        string currentState = FindObjectOfType<StateMachine>().GetCurrentState().ToString();
+        float timer = 10f;
+        if(currentState == "Idle")
+		{
+            timer -= Time.deltaTime;
+            if(timer <= 0)
+			{
+                int rand = Random.Range(0, 2);
+                if(rand == 0)
+				{
+                    RuntimeManager.PlayOneShot("event:/Enemy/EnemyRoar");
+				}
+				else
+				{
+                    return;
+				}
+            }
+		}
     }
 
     protected override BaseState GetInitialState()

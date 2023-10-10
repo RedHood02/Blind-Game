@@ -26,6 +26,7 @@ public class Hunting : BaseState
     {
         base.UpdateLogic();
         LowerTimer();
+
     }
 
     void LowerTimer()
@@ -39,7 +40,8 @@ public class Hunting : BaseState
         _SM.timeToNextStep -= Time.deltaTime;
         if (_SM.timeToNextStep <= 0)
         {
-            //play audiosource
+            _SM.source.GenerateImpulse();
+            _SM.emitter.Play();
             _SM.SpawnScanner(1); //Running Scanner
             _SM.timeToNextStep = _SM.timeToNextStepMaster;
         }

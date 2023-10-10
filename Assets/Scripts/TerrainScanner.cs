@@ -4,21 +4,15 @@ using UnityEngine;
 
 public class TerrainScanner : MonoBehaviour
 {
-    [SerializeField] GameObject terrainScannerPrefab;
+
     [SerializeField] float duration, size;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SpawnScanner();
-        }
-    }
 
-    public void SpawnScanner()
+    // Update is called once per frame
+
+    public void SpawnScanner(GameObject prefabToSpawn)
     {
-        GameObject terrainScanner = Instantiate(terrainScannerPrefab, gameObject.transform.position, Quaternion.identity);
+        GameObject terrainScanner = Instantiate(prefabToSpawn, gameObject.transform.position, Quaternion.identity);
         
         if (terrainScanner.transform.GetChild(0).TryGetComponent<ParticleSystem>(out var terrainScannerPs))
         {
