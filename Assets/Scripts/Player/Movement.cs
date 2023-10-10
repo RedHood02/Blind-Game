@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
+using FMODUnity;
 
 public class Movement : MonoBehaviour
 {
@@ -25,6 +25,9 @@ public class Movement : MonoBehaviour
 	// Player movement
 	private Vector2 moveTouchStartPosition;
 	private Vector2 moveInput;
+
+	//Fmod
+	[SerializeField] StudioEventEmitter emitter;
 
 	[SerializeField] float currentTouchDistance;
 
@@ -180,7 +183,7 @@ public class Movement : MonoBehaviour
 		timeToNextStep -= Time.deltaTime;
 		if (timeToNextStep <= 0)
 		{
-			//play audiosource
+			emitter.Play();
 			GetComponent<TerrainScanner>().SpawnScanner();
 			timeToNextStep = timeToNextStepMaster;
 		}

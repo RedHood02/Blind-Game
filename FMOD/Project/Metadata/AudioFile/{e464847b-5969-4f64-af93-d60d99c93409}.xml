@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{e464847b-5969-4f64-af93-d60d99c93409}">
+		<property name="assetPath">
+			<value>Player/ES_Water Drips 2.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>10.292244897959185</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{9fb43183-06ee-46a5-94cb-b8d41a74d23e}</destination>
+		</relationship>
+	</object>
+</objects>
