@@ -45,6 +45,9 @@ public class Movement : MonoBehaviour
     public float currentState; // 0 = tiptoing, 1 = walking, 2 = running
     [SerializeField] float tiptoingSpeed, walkingSpeed, runningSpeed;
 
+    //Raycast
+    [SerializeField] LayerMask pipeMask;
+
     void Start()
     {
 
@@ -100,6 +103,12 @@ public class Movement : MonoBehaviour
             if (t.tapCount == 2 && doubleTapTimer < 0)
             {
                 DoubleTapAction();
+            }
+
+            if (t.phase == TouchPhase.Began)
+            {
+                Debug.Log("Casted");
+                CastRaycast();
             }
 
             // Check each touch's phase
@@ -186,6 +195,21 @@ public class Movement : MonoBehaviour
         }
     }
 
+
+
+    void CastRaycast()
+    {
+        if (Physics.Raycast(Camera.main.gameObject.transform.position, transform.forward, out RaycastHit hit, 10, pipeMask))
+        {
+            Debug.Log(hit.collider.name);
+            if (hit.collider.GetComponent<WaterPipe>().GetIsInRange() == true)
+            {
+                hit.collider.GetComponent<WaterPipe>().ActivatePipe();
+            }
+            return;
+        }
+        return;
+    }
     void LookAround()
     {
 
