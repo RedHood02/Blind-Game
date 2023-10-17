@@ -8,7 +8,7 @@ public class ScannerEnemyDetection : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("Enter");
+            Debug.Log("Detected enemy");
             other.gameObject.GetComponent<EnemySM>().SetHunt();
         }
     }

@@ -73,7 +73,6 @@ public class EnemySM : StateMachine
         string currentState = FindObjectOfType<StateMachine>().GetCurrentState().ToString();
         if (currentState == "Idle")
         {
-            Debug.Log("Timer left: " + timer);
             timer -= Time.deltaTime;
             if (timer <= 0)
             {
