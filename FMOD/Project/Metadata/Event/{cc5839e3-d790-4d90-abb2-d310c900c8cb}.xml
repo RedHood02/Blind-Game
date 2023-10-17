@@ -5,7 +5,7 @@
 			<value>EnemyRoar</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{fff4a863-01fc-4ec1-a307-a40ced6fe110}</destination>
@@ -119,7 +119,11 @@
 	</object>
 	<object class="MixerBusFader" id="{1cc3ffa3-1f8f-4c6e-b264-7b727c967e14}" />
 	<object class="SpatialiserEffect" id="{f8651171-fd69-4208-a0ee-c2d899d2bfcf}" />
-	<object class="PannerEffect" id="{65aaded1-893e-4ff1-be11-ec12b2434462}" />
+	<object class="PannerEffect" id="{65aaded1-893e-4ff1-be11-ec12b2434462}">
+		<property name="overridingOutputFormat">
+			<value>1</value>
+		</property>
+	</object>
 	<object class="SFXReverbEffect" id="{4f45f530-da9d-4081-8258-f4708e59822b}">
 		<property name="earlyDelay">
 			<value>7</value>

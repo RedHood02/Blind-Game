@@ -35,10 +35,13 @@ public class EnemySM : StateMachine
     public Animator anim;
 
     //FMOD
-    public StudioEventEmitter emitter;
+    public StudioEventEmitter emitter, roarEmitter;
 
     //Cinemachine
     public CinemachineImpulseSource source;
+
+    //SFX
+    [SerializeField] float timer;
 
     private void Awake()
     {
@@ -66,25 +69,28 @@ public class EnemySM : StateMachine
     }
 
     public void RandomiseSound()
-	{
+    {
         string currentState = FindObjectOfType<StateMachine>().GetCurrentState().ToString();
-        float timer = 10f;
-        if(currentState == "Idle")
-		{
+        if (currentState == "Idle")
+        {
+            Debug.Log("Timer left: " + timer);
             timer -= Time.deltaTime;
-            if(timer <= 0)
-			{
+            if (timer <= 0)
+            {
                 int rand = Random.Range(0, 2);
-                if(rand == 0)
-				{
-                    RuntimeManager.PlayOneShot("event:/Enemy/EnemyRoar");
-				}
-				else
-				{
+                if (rand == 0)
+                {
+                    agent.isStopped = true;
+                    roarEmitter.Play();
+                }
+                else
+                {
                     return;
-				}
+                }
+                agent.isStopped = false;
+                timer = 10f;
             }
-		}
+        }
     }
 
     protected override BaseState GetInitialState()
@@ -106,28 +112,47 @@ public class EnemySM : StateMachine
         Destroy(terrainScanner, duration + 1);
     }
 
+    public void DirectorTeleport(Vector3 firstPipe, Vector3 secondPipe)
+    {
+
+    }
+
+    public void DirectorTip(Vector3 newPos)
+    {
+
+    }
+
+    public void DirectorLeave(Vector3 newPos)
+    {
+        
+    }
+
+    public void DirectorRest()
+    {
+        ChangeState(restingState);
+    }
+
+    public void DirectorAwake()
+    {
+
+    }
+
+    void a()
+    {
+       
+    }
+
+    public void FirstSpawn()
+    {
+        gameObject.SetActive(true);
+    }
+
 
     public void ChangeAnimation()
     {
         meshRend.enabled = false;
         anim.Play("New State");
     }
-
-    public void ResetTimer()
-    {
-        GetComponent<RestingTimer>().SetTimeToRest(0f);
-
-    }
-
-
-    public IEnumerator ResetMovement()
-    {
-        yield return new WaitForSeconds(30f);
-        {
-            ChangeState(idleState);
-        }
-    }
-
 
     public bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
@@ -142,5 +167,11 @@ public class EnemySM : StateMachine
         }
         result = Vector3.zero;
         return false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }

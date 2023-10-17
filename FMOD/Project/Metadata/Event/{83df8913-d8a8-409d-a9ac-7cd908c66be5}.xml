@@ -65,7 +65,7 @@
 	</object>
 	<object class="EventAutomatableProperties" id="{e9325fd1-d988-495a-b12c-74084077c3db}">
 		<property name="maxVoices">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<property name="dopplerEnabled">
 			<value>true</value>
@@ -87,6 +87,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{2b760db4-ed53-40f9-90e1-b3b17d0e4478}">
+		<property name="volume">
+			<value>-8</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{ab34bf19-e674-4922-a60b-2a3741ea2741}</destination>
 		</relationship>

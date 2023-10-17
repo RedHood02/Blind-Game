@@ -5,7 +5,7 @@
 			<value>EnemyWalking</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{fff4a863-01fc-4ec1-a307-a40ced6fe110}</destination>
@@ -140,7 +140,14 @@
 	</object>
 	<object class="MixerBusFader" id="{29494f72-0b1f-4067-85c1-8b3a4f0c6a73}" />
 	<object class="SpatialiserEffect" id="{f4953331-1b04-4f36-9d48-2e0bc8a0b323}" />
-	<object class="PannerEffect" id="{5442d3b2-f796-48f4-93ab-bb186968ab83}" />
+	<object class="PannerEffect" id="{5442d3b2-f796-48f4-93ab-bb186968ab83}">
+		<property name="overridingOutputFormat">
+			<value>1</value>
+		</property>
+		<relationship name="modulators">
+			<destination>{cab4cfb6-a461-40d0-8548-9ee6402a82b4}</destination>
+		</relationship>
+	</object>
 	<object class="MixerBusFader" id="{64d7d7f7-a194-4c92-b2be-d1519938cb30}" />
 	<object class="SFXReverbEffect" id="{1d641fa4-f5d4-420a-b563-22a5e89e9e2f}">
 		<property name="earlyDelay">
@@ -175,6 +182,14 @@
 		<relationship name="modulators">
 			<destination>{63d76221-f0dd-41fa-81a8-54d6a9b91678}</destination>
 		</relationship>
+	</object>
+	<object class="LFOModulator" id="{cab4cfb6-a461-40d0-8548-9ee6402a82b4}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>stereoPan</value>
+		</property>
+		<property name="depth">
+			<value>10</value>
+		</property>
 	</object>
 	<object class="RandomizerModulator" id="{63d76221-f0dd-41fa-81a8-54d6a9b91678}">
 		<property name="nameOfPropertyBeingModulated">
