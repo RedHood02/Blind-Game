@@ -10,7 +10,7 @@ public class EnemySM : StateMachine
     [HideInInspector]
     public Idle idleState;
     [HideInInspector]
-    public Resting restingState;
+    public Venting ventingState;
     [HideInInspector]
     public Hunting huntingState;
 
@@ -35,7 +35,7 @@ public class EnemySM : StateMachine
     public Animator anim;
 
     //FMOD
-    public StudioEventEmitter emitter, roarEmitter;
+    public StudioEventEmitter emitter, roarEmitter, ventingEmitter;
 
     //Cinemachine
     public CinemachineImpulseSource source;
@@ -43,10 +43,12 @@ public class EnemySM : StateMachine
     //SFX
     [SerializeField] float timer;
 
+    public bool inArea, isVented;
+
     private void Awake()
     {
         idleState = new Idle(this);
-        restingState = new Resting(this);
+        ventingState = new Venting(this);
         huntingState = new Hunting(this);
     }
 
@@ -61,6 +63,13 @@ public class EnemySM : StateMachine
 
             case "Hunting":
                 huntingState.ResetTimer();
+                break;
+
+            case "Venting":
+                if (meshRend.enabled == true)
+                {
+                    ChangeState(huntingState);
+                }
                 break;
 
             default:
@@ -92,6 +101,21 @@ public class EnemySM : StateMachine
         }
     }
 
+    public void Vent()
+    {
+        meshRend.enabled = false;
+        ventingEmitter.Play();
+        isVented = true;
+    }
+
+
+    public void Unvent(Transform selectedPipe)
+    {
+        transform.SetPositionAndRotation(selectedPipe.position, Quaternion.identity);
+        ventingEmitter.Play();
+    }
+
+
     protected override BaseState GetInitialState()
     {
         return idleState;
@@ -111,46 +135,9 @@ public class EnemySM : StateMachine
         Destroy(terrainScanner, duration + 1);
     }
 
-    public void DirectorTeleport(Vector3 firstPipe, Vector3 secondPipe)
-    {
-
-    }
-
-    public void DirectorTip(Vector3 newPos)
-    {
-
-    }
-
-    public void DirectorLeave(Vector3 newPos)
-    {
-        
-    }
-
-    public void DirectorRest()
-    {
-        ChangeState(restingState);
-    }
-
-    public void DirectorAwake()
-    {
-
-    }
-
-    void a()
-    {
-       
-    }
-
     public void FirstSpawn()
     {
         gameObject.SetActive(true);
-    }
-
-
-    public void ChangeAnimation()
-    {
-        meshRend.enabled = false;
-        anim.Play("New State");
     }
 
     public bool RandomPoint(Vector3 center, float range, out Vector3 result)

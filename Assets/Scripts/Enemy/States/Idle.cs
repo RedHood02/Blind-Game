@@ -51,16 +51,4 @@ public class Idle : BaseState
             _SM.timeToNextStep = _SM.timeToNextStepMaster;
         }
     }
-
-
-    public override void Exit()
-    {
-        base.Exit();
-        Transform playerTr = GameObject.FindGameObjectWithTag("Player").transform;
-        Vector3 playerPos = new(playerTr.position.x, 1, playerTr.position.z);
-
-        _SM.playerPos = playerPos;
-
-    }
-
 }

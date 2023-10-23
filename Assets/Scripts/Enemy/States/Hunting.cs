@@ -14,6 +14,12 @@ public class Hunting : BaseState
     public override void Enter()
     {
         base.Enter();
+
+        Transform playerTr = GameObject.FindGameObjectWithTag("Player").transform;
+        Vector3 playerPos = new(playerTr.position.x, 1, playerTr.position.z);
+
+        _SM.playerPos = playerPos;
+
         _SM.timerToReset = _SM.timerMaster;
         _SM.agent.SetDestination(_SM.playerPos);
         _SM.agent.speed = 7f;
