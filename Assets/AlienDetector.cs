@@ -8,7 +8,8 @@ public class AlienDetector : MonoBehaviour
     {
         if(other.CompareTag("Enemy"))
         {
-            other.GetComponent<EnemySM>().inArea = true;
+            other.GetComponent<EnemySM>().PlayVent();
+            Debug.Log("Ploayed");
         }
     }
 }

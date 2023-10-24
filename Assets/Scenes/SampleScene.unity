@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.000018086948, g: 0.000000031775667, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.000018086883, g: 0.000000031775667, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3265,6 +3265,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 684311375}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &684311377 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2051051239, guid: 8e7dd680eb9993e47a37f0e5152875c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 684311375}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &694871564
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4254,6 +4260,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 889072174}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &889072176 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2051051239, guid: 8e7dd680eb9993e47a37f0e5152875c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 889072174}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &894357308
 GameObject:
   m_ObjectHideFlags: 0
@@ -4433,11 +4445,17 @@ MonoBehaviour:
   anim: {fileID: 937924682}
   emitter: {fileID: 937924684}
   roarEmitter: {fileID: 937924686}
-  ventingEmitter: {fileID: 937924688}
   source: {fileID: 937924685}
   timer: 10
   inArea: 0
-  isVented: 0
+  ventingTimer: 0
+  ventingTimerMaster: 20
+  alienPipes:
+  - {fileID: 684311377}
+  - {fileID: 889072176}
+  - {fileID: 1976840603}
+  selectedPipe: {fileID: 0}
+  ventEmitter: {fileID: 937924688}
 --- !u!54 &937924678
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -15419,17 +15437,17 @@ PrefabInstance:
     - target: {fileID: 4103771596372737966, guid: d729f99af6f68d24b99c1df0c49cc7c7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.1500244
       objectReference: {fileID: 0}
     - target: {fileID: 4103771596372737966, guid: d729f99af6f68d24b99c1df0c49cc7c7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 4.12
       objectReference: {fileID: 0}
     - target: {fileID: 4103771596372737966, guid: d729f99af6f68d24b99c1df0c49cc7c7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.22
+      value: -2.0519998
       objectReference: {fileID: 0}
     - target: {fileID: 4103771596372737966, guid: d729f99af6f68d24b99c1df0c49cc7c7,
         type: 3}
@@ -16129,7 +16147,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1503589981
 Transform:
   m_ObjectHideFlags: 0
@@ -16641,17 +16659,17 @@ PrefabInstance:
     - target: {fileID: 4103771596372737966, guid: d729f99af6f68d24b99c1df0c49cc7c7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.15
       objectReference: {fileID: 0}
     - target: {fileID: 4103771596372737966, guid: d729f99af6f68d24b99c1df0c49cc7c7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 4.12
       objectReference: {fileID: 0}
     - target: {fileID: 4103771596372737966, guid: d729f99af6f68d24b99c1df0c49cc7c7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.218
+      value: -2.05
       objectReference: {fileID: 0}
     - target: {fileID: 4103771596372737966, guid: d729f99af6f68d24b99c1df0c49cc7c7,
         type: 3}
@@ -17987,6 +18005,12 @@ PrefabInstance:
 --- !u!1 &1976840602 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2051051238, guid: 8e7dd680eb9993e47a37f0e5152875c8,
+    type: 3}
+  m_PrefabInstance: {fileID: 1976840601}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1976840603 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2051051239, guid: 8e7dd680eb9993e47a37f0e5152875c8,
     type: 3}
   m_PrefabInstance: {fileID: 1976840601}
   m_PrefabAsset: {fileID: 0}

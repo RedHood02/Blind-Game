@@ -35,7 +35,7 @@ public class EnemySM : StateMachine
     public Animator anim;
 
     //FMOD
-    public StudioEventEmitter emitter, roarEmitter, ventingEmitter;
+    public StudioEventEmitter emitter, roarEmitter;
 
     //Cinemachine
     public CinemachineImpulseSource source;
@@ -43,7 +43,16 @@ public class EnemySM : StateMachine
     //SFX
     [SerializeField] float timer;
 
+
+    //Venting
     public bool inArea, isVented;
+    public float ventingTimer, ventingTimerMaster, ventedTimer;
+
+    public List<Transform> alienPipes = new();
+
+    public Transform selectedPipe;
+
+    public StudioEventEmitter ventEmitter;
 
     private void Awake()
     {
@@ -77,6 +86,12 @@ public class EnemySM : StateMachine
         }
     }
 
+    public void PlayVent()
+    {
+        ventEmitter.Play();
+    }
+
+
     public void RandomiseSound()
     {
         string currentState = FindObjectOfType<StateMachine>().GetCurrentState().ToString();
@@ -99,20 +114,6 @@ public class EnemySM : StateMachine
                 timer = 10f;
             }
         }
-    }
-
-    public void Vent()
-    {
-        meshRend.enabled = false;
-        ventingEmitter.Play();
-        isVented = true;
-    }
-
-
-    public void Unvent(Transform selectedPipe)
-    {
-        transform.SetPositionAndRotation(selectedPipe.position, Quaternion.identity);
-        ventingEmitter.Play();
     }
 
 

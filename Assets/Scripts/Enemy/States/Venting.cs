@@ -1,15 +1,12 @@
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using FMODUnity;
 public class Venting : BaseState
 {
     private EnemySM _SM;
 
-    [SerializeField] StudioEventEmitter emitter;
-
-    [SerializeField] float timer2 = 0;
     public Venting(EnemySM stateMachine) : base(stateMachine)
     {
         _SM = stateMachine;
@@ -18,42 +15,76 @@ public class Venting : BaseState
     public override void Enter()
     {
         base.Enter();
-        _SM.enemyLight.enabled = false;
-        _SM.ventingEmitter.SetParameter("Venting", 0);
-        Director._Director.Vent();
-        _SM.agent.SetDestination(Director._Director.selectedPipe.position);
+        GetNearestPipe();
+        _SM.agent.SetDestination(_SM.selectedPipe.position);
+        _SM.ventingTimer = _SM.ventingTimerMaster / 2;
+        _SM.ventEmitter.SetParameter("Venting", 0);
     }
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+        _SM.timeToNextStep -= Time.deltaTime;
+        Scanner();
         if(_SM.inArea)
         {
-            _SM.Vent();
+            _SM.meshRend.enabled = false;
+            _SM.enemyLight.enabled = false;
         }
+    }
 
+    void VentedTimer()
+    {
         if(_SM.isVented)
         {
-            float timer = Random.Range(90, 121);
+            _SM.ventedTimer += Time.deltaTime;
+            if(_SM.ventedTimer > )
+        }
+    }
 
-            timer2 += Time.deltaTime;
-            if(timer2 > timer)
+    void GetNearestPipe()
+    {
+        _SM.selectedPipe = _SM.alienPipes[0];
+        for (int i = 0; i < _SM.alienPipes.Count; i++)
+        {
+            if (Vector3.Distance(_SM.transform.position, _SM.alienPipes[i].position) < Vector3.Distance(_SM.transform.position, _SM.selectedPipe.position) )
             {
-                _SM.ventingEmitter.SetParameter("Venting", 1);
-                Director._Director.UnventDirector(out Transform pipe);
-                _SM.Unvent(pipe);
-                _SM.ChangeState(_SM.idleState);
+                _SM.selectedPipe = _SM.alienPipes[i];
             }
         }
     }
 
+    void Scanner()
+    {
+        if (_SM.timeToNextStep <= 0)
+        {
+            _SM.source.GenerateImpulse();
+            _SM.emitter.Play();
+            _SM.SpawnScanner(0); // Walking scanner
+            _SM.timeToNextStep = _SM.timeToNextStepMaster;
+        }
+    }
+
+    void Unvent()
+    {
+        _SM.selectedPipe = _SM.alienPipes[0];
+        for (int i = 0; i < _SM.alienPipes.Count; i++)
+        {
+            if (Vector3.Distance(_SM.playerPos, _SM.alienPipes[i].position) < Vector3.Distance(_SM.playerPos, _SM.selectedPipe.position))
+            {
+                _SM.selectedPipe = _SM.alienPipes[i];
+            }
+        }
+    }
 
     public override void Exit()
     {
         base.Exit();
-        timer2 = 0;
+        Unvent();
+        _SM.transform.SetPositionAndRotation(_SM.selectedPipe.position, Quaternion.identity);
+        _SM.meshRend.enabled = true;
         _SM.enemyLight.enabled = true;
-        _SM.inArea = false;
-        _SM.isVented = false;
+        _SM.ventEmitter.SetParameter("Venting", 1);
+        _SM.ventEmitter.Play();
     }
 }

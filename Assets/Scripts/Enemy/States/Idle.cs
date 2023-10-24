@@ -19,6 +19,7 @@ public class Idle : BaseState
         _SM.playerPos = Vector3.zero;
         _SM.RandomPoint(_SM.transform.position, _SM.radius, out Vector3 point);
         _SM.agent.SetDestination(point);
+        _SM.ventingTimer = _SM.ventingTimerMaster;
     }
 
     public override void UpdateLogic()
@@ -33,6 +34,8 @@ public class Idle : BaseState
                 _SM.agent.SetDestination(point);
             }
             Scanner();
+
+            IncreaseVentTimer();
         }
         else
         {
@@ -40,6 +43,15 @@ public class Idle : BaseState
         }
     }
 
+    void IncreaseVentTimer()
+    {
+        _SM.ventingTimer += Time.deltaTime;
+
+        if(_SM.ventingTimer > _SM.ventingTimerMaster)
+        {
+            _SM.ChangeState(_SM.ventingState);
+        }
+    }
     void Scanner()
     {
         _SM.timeToNextStep -= Time.deltaTime;
@@ -51,4 +63,5 @@ public class Idle : BaseState
             _SM.timeToNextStep = _SM.timeToNextStepMaster;
         }
     }
+
 }
