@@ -40,6 +40,7 @@ public class Movement : MonoBehaviour
     [SerializeField] GameObject terrainScannerPrefab, terrainScannerWater;
 
     [SerializeField] bool inWater;
+    public bool canMove;
 
     //Movement states
     public float currentState; // 0 = tiptoing, 1 = walking, 2 = running
@@ -72,13 +73,13 @@ public class Movement : MonoBehaviour
         GetTouchInput();
 
 
-        if (rightFingerId != -1)
+        if (rightFingerId != -1 && canMove)
         {
             // Ony look around if the right finger is being tracked
             LookAround();
         }
 
-        if (leftFingerId != -1)
+        if (leftFingerId != -1 && canMove)
         {
             // Ony move if the left finger is being tracked
             Move();

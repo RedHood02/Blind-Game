@@ -19,7 +19,7 @@ public class Idle : BaseState
         _SM.playerPos = Vector3.zero;
         _SM.RandomPoint(_SM.transform.position, _SM.radius, out Vector3 point);
         _SM.agent.SetDestination(point);
-        _SM.ventingTimer = _SM.ventingTimerMaster;
+        _SM.ventingTimer = 0;
     }
 
     public override void UpdateLogic()

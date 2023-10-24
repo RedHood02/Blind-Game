@@ -57,7 +57,6 @@ public class Hunting : BaseState
     {
         base.Exit();
         _SM.heardPlayer = false;
-        _SM.anim.Play("Despawn");
     }
 
     public void ResetTimer()
