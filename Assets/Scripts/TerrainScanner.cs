@@ -12,18 +12,19 @@ public class TerrainScanner : MonoBehaviour
 
     public void SpawnScanner(GameObject prefabToSpawn)
     {
+        Debug.Log("Casted");
         GameObject terrainScanner = Instantiate(prefabToSpawn, gameObject.transform.position, Quaternion.identity);
 
         if (terrainScanner.transform.GetChild(0).TryGetComponent<ParticleSystem>(out var terrainScannerPs) && terrainScanner.name == "Scanner(Clone)" && terrainScanner.transform.GetChild(0).TryGetComponent<SphereCollider>(out var sphereCollider))
         {
             var main = terrainScannerPs.main;
-            if (GetComponent<Movement>().currentState == 1)
+            if (GetComponent<PCMovement>().currentState == 1)
             {
                 main.startLifetime = walkingDuration;
                 main.startSize = walkingSize;
                 sphereCollider.radius = 50;
             }
-            else if (GetComponent<Movement>().currentState == 2)
+            else if (GetComponent<PCMovement>().currentState == 2)
             {
                 main.startLifetime = runningDuration;
                 main.startSize = runningSize;
@@ -34,13 +35,13 @@ public class TerrainScanner : MonoBehaviour
         else if (terrainScanner.name == "ScannerWater(Clone)" && terrainScanner.transform.GetChild(0).TryGetComponent<SphereCollider>(out var sphere))
         {
             var main = terrainScannerPs.main;
-            if (GetComponent<Movement>().currentState == 1)
+            if (GetComponent<PCMovement>().currentState == 1)
             {
                 main.startLifetime = walkingDuration;
                 main.startSize = walkingSize;
                 sphere.radius = 150f;
             }
-            else if (GetComponent<Movement>().currentState == 2)
+            else if (GetComponent<PCMovement>().currentState == 2)
             {
                 main.startLifetime = runningDuration;
                 main.startSize = runningSize;
