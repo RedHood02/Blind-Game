@@ -15,6 +15,8 @@ public class PlayerDeath : MonoBehaviour
             canvasVisor.SetActive(true);
             deathSFX.Play();
             Destroy(collision.gameObject);
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
         }
     }
 }

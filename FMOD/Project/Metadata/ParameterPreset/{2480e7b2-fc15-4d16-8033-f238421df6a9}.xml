@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{2480e7b2-fc15-4d16-8033-f238421df6a9}">
+		<property name="name">
+			<value>Loop Exit</value>
+		</property>
+		<relationship name="folder">
+			<destination>{78b7d504-55ac-4b60-bebb-a81a5583172e}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{69c2a16d-bb0b-4551-9868-5d19e6042274}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{69c2a16d-bb0b-4551-9868-5d19e6042274}">
+		<property name="parameterType">
+			<value>2</value>
+		</property>
+		<property name="maximum">
+			<value>2</value>
+		</property>
+		<property name="enumerationLabels">
+			<value>Value A</value>
+			<value>Finished</value>
+		</property>
+		<property name="isGlobal">
+			<value>true</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
+		</property>
+	</object>
+</objects>

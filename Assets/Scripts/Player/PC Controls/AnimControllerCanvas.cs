@@ -6,6 +6,12 @@ public class AnimControllerCanvas : MonoBehaviour
 {
     [SerializeField] Animator anim;
     [SerializeField] GameObject image;
+
+    public void PlayOpen()
+    {
+        anim.Play("Open");
+    }
+
     public void PlayAnim()
     {
         anim.Play("Close");

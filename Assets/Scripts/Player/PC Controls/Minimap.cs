@@ -19,6 +19,7 @@ public class Minimap : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.M) && !isOpen)
         {
             minimap.SetActive(true);
+            anim.PlayOpen();
             isOpen = true;
             FindObjectOfType<PCMovement>().canMove = false;
             StartCoroutine(Fade());
