@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{78533dd5-bc3b-40a5-b591-27d60ee49e67}">
+		<property name="assetPath">
+			<value>ES_Wind Storm 1.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>166.79183673469387</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{9fb43183-06ee-46a5-94cb-b8d41a74d23e}</destination>
+		</relationship>
+	</object>
+</objects>

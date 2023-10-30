@@ -40,11 +40,14 @@ public class PCMovement : MonoBehaviour
     }
     private void Update()
     {
-        GetAxis();
-        MovePlayer();
-        CheckPos();
-        BoolControl();
-        Clap();
+        if(canMove)
+        {
+            GetAxis();
+            MovePlayer();
+            CheckPos();
+            BoolControl();
+            Clap();
+        }
     }
 
     void MovePlayer()
